@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Details</title>
+    <!-- Подключение Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Room Manager</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/rooms">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/room/new">Add Room</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-5">
+    <h1 class="text-center mb-4" th:text="${room.name}">Room Name</h1>
+    <p class="text-center fs-5">Capacity: <span th:text="${room.capacity}"></span></p>
+
+    <h2 class="mt-5">Reservations for this room</h2>
+    <ul class="list-group">
+        <li class="list-group-item" th:each="reservation : ${reservations}">
+            <p class="mb-1">
+                <strong>Reserved by:</strong> <span th:text="${reservation.userName}"></span><br>
+                <strong>Start:</strong>
+                <span th:text="${#temporals.format(reservation.startTime, 'dd.MM.yyyy HH:mm')}"></span><br>
+                <strong>End:</strong>
+                <span th:text="${#temporals.format(reservation.endTime, 'dd.MM.yyyy HH:mm')}"></span></span>
+            </p>
+        </li>
+    </ul>
+
+    <!-- Кнопка для перехода на форму бронирования -->
+    <div class="text-center mt-4">
+        <a th:href="@{/reserve/{id}(id=${room.id})}" class="btn btn-primary">
+            Reserve This Room
+        </a>
+    </div>
+</main>
+
+<footer class="bg-dark text-white text-center py-3">
+    Титлянов Андрей Константинович. ИКБО-20-22. 2024 год.
+</footer>
+
+<!-- Подключение Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
